@@ -29,3 +29,15 @@ class LaptopRecommendationSystem:
             filtered_data = filtered_data[filtered_data['Price in India'] <= max_price]
 
         return filtered_data
+    
+
+
+    def perform_sentiment_analysis(self, df):
+        sentiment_scores = {}
+        for index, row in df.iterrows():
+            review = row['reviewDescription']
+            sentiment = TextBlob(review).sentiment
+            sentiment_scores[index] = sentiment
+
+        sorted_scores = sorted(sentiment_scores.items(), key=lambda x: x[1].polarity, reverse=True)
+        top_reviews = sorted_scores[:50]  
