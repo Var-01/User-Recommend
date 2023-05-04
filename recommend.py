@@ -41,3 +41,17 @@ class LaptopRecommendationSystem:
 
         sorted_scores = sorted(sentiment_scores.items(), key=lambda x: x[1].polarity, reverse=True)
         top_reviews = sorted_scores[:50]  
+        
+        recommended_items = []
+        for review in top_reviews:
+            index, sentiment = review
+            laptop_model = df.loc[index, 'Model']
+            laptop_price = df.loc[index, 'Price in India']
+            laptop_colour = df.loc[index, 'Colours']
+            laptop_bestbuylink = df.loc[index, 'link']
+            laptop_ram = df.loc[index, 'RAM']
+            laptop_size = df.loc[index, 'Size']
+
+            recommended_items.append((laptop_model, laptop_price, laptop_colour, laptop_bestbuylink, laptop_ram, laptop_size))
+
+        return recommended_items
