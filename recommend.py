@@ -55,3 +55,17 @@ class LaptopRecommendationSystem:
             recommended_items.append((laptop_model, laptop_price, laptop_colour, laptop_bestbuylink, laptop_ram, laptop_size))
 
         return recommended_items
+
+    
+    def perform_collaborative_filtering(self, df):
+        ratings_matrix = df[['1 stars', '2 stars', '3 stars', '4 stars', '5 stars']].values
+
+        item_similarity = cosine_similarity(ratings_matrix.T)
+
+        target_ratings = ratings_matrix.mean(axis=0)
+
+        weighted_ratings = np.dot(item_similarity.T, target_ratings) / np.sum(item_similarity, axis=1)
+
+        sorted_indices = np.argsort(weighted_ratings)[::-1]
+
+        return sorted_indices
