@@ -69,3 +69,10 @@ class LaptopRecommendationSystem:
         sorted_indices = np.argsort(weighted_ratings)[::-1]
 
         return sorted_indices
+
+
+    def recommend_laptops(self, brand, color=None, battery_life=None, hard_disk_size=None, max_price=None):
+        filtered_df = self.filter_data(brand=brand, color=color, battery_life=battery_life, max_price=max_price)
+
+        collaborative_indices = self.perform_collaborative_filtering(filtered_df)
+        recommended_laptops = pd.DataFrame(columns=['Model', 'Price', 'Colour', 'Best Buy Link', 'RAM', 'Size']) 
