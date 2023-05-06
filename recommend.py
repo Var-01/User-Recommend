@@ -76,3 +76,21 @@ class LaptopRecommendationSystem:
 
         collaborative_indices = self.perform_collaborative_filtering(filtered_df)
         recommended_laptops = pd.DataFrame(columns=['Model', 'Price', 'Colour', 'Best Buy Link', 'RAM', 'Size']) 
+
+        for i, item_id in enumerate(collaborative_indices):
+            laptop_model = filtered_df.iloc[item_id]['Model']
+            laptop_price = filtered_df.iloc[item_id]['Price in India']
+            laptop_colour = filtered_df.iloc[item_id]['Colours']
+            laptop_bestbuylink = filtered_df.iloc[item_id]['link']
+            laptop_ram = filtered_df.iloc[item_id]['RAM']
+            laptop_size = filtered_df.iloc[item_id]['Size']
+
+            recommended_laptops.loc[i] = [laptop_model, laptop_price, laptop_colour, laptop_bestbuylink, laptop_ram, laptop_size]
+        return recommended_laptops
+
+
+path_to_csv_file = "C:\\Users\\anok1\\Desktop\\Git conti\\Recommendation-System\\Projectt.csv"
+recommendation_system = LaptopRecommendationSystem(path_to_csv_file)
+recommended_laptops = recommendation_system.recommend_laptops(brand='HP', color='Black', battery_life=5, max_price=50000)
+print("\nCollaborative Filtering Recommendations:")
+print(recommended_laptops)
